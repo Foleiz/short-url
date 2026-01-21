@@ -5,19 +5,17 @@ import History from "./pages/History";
 export default function App() {
   return (
     <BrowserRouter>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/history">History</Link>
-      </nav>
+      <div className="container">
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/history">History</Link>
+        </nav>
 
-      <Routes>
-        <Route path="/" element={
-          <>
-            <Home />
-            <History />
-          </>
-        } />
-        <Route path="/history" element={<History />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/history" element={<History />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

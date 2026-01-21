@@ -9,10 +9,26 @@ export default function History() {
     getHistory().then(setUrls);
   }, []);
 
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this URL?")) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/urls/${id}`, { method: "DELETE" });
+      if (response.ok) {
+        setUrls(urls.filter((u) => u._id !== id));
+      } else {
+        alert("ลบข้อมูลไม่สำเร็จ กรุณาตรวจสอบ Backend Server");
+      }
+    } catch (err) {
+      console.error("Failed to delete", err);
+      alert("เกิดข้อผิดพลาดในการเชื่อมต่อ");
+    }
+  };
+
   return (
     <div>
       <h1>URL History</h1>
-      <UrlTable urls={urls} />
+      <UrlTable urls={urls} onDelete={handleDelete} />
     </div>
   );
 }

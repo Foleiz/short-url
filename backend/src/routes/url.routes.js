@@ -40,4 +40,14 @@ router.get("/:code", async (req, res) => {
   res.redirect(url.fullUrl);
 });
 
+// Delete URL
+router.delete("/urls/:id", async (req, res) => {
+  try {
+    await Url.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Error deleting URL" });
+  }
+});
+
 export default router;

@@ -9,6 +9,7 @@ export default function ShortenForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await createShortUrl(url);
+    console.log("API Response:", data);
     setResult(data);
   };
 
@@ -25,7 +26,7 @@ export default function ShortenForm() {
       </form>
 
       {result && (
-        <div>
+        <div className="result-card">
           <p>
             Short URL:{" "}
             <a href={result.shortUrl} target="_blank">
