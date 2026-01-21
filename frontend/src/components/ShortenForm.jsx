@@ -19,8 +19,8 @@ export default function CreateLink() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          full_url: url,
-          custom_code: alias,
+          Full_Url: url,
+          customAlias: alias,
         }),
       });
 
