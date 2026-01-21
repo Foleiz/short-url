@@ -1,6 +1,6 @@
 import { QRCodeCanvas } from "qrcode.react";
 
-export default function QrModal({ shortUrl }) {
+export default function CreateQr({ shortUrl }) {
   let qrValue = shortUrl;
 
   try {
@@ -21,7 +21,7 @@ export default function QrModal({ shortUrl }) {
 
   return (
     <div className="qr-wrapper">
-      <h3>QR Code</h3>
+      <h3>สแกน QR Code</h3>
       <QRCodeCanvas value={qrValue} size={150} />
       <p style={{ marginTop: "10px", fontSize: "0.85rem", color: "#666", wordBreak: "break-all" }}>
         {qrValue}

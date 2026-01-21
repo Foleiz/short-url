@@ -1,7 +1,7 @@
 import { useState } from "react";
-import QrModal from "./QrModal";
+import CreateQr from "./CreateQr";
 
-export default function ShortenForm() {
+export default function CreateLink() {
   const [url, setUrl] = useState("");
   const [alias, setAlias] = useState("");
   const [result, setResult] = useState(null);
@@ -21,7 +21,7 @@ export default function ShortenForm() {
 
       const data = await response.json();
       if (!response.ok) {
-        throw new Error(data.error || "Something went wrong");
+        throw new Error(data.error || "เกิดข้อผิดพลาด");
       }
       setResult(data);
     } catch (err) {
@@ -35,13 +35,13 @@ export default function ShortenForm() {
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://example.com"
+          placeholder="ตัวอย่าง: https://example.com"
           required
         />
         <input
           value={alias}
           onChange={(e) => setAlias(e.target.value)}
-          placeholder="Custom Alias (Optional)"
+          placeholder="ตั้งชื่อย่อเอง"
           style={{ flex: "0 0 150px" }} 
         />
         <button type="submit">Create Short URL</button>
@@ -54,12 +54,12 @@ export default function ShortenForm() {
       {result && (
         <div className="result-card">
           <p>
-            Short URL:{" "}
+            ลิงก์ย่อของคุณ:{" "}
             <a href={result.shortUrl} target="_blank">
               {result.shortUrl}
             </a>
           </p>
-          <QrModal shortUrl={result.shortUrl} />
+          <CreateQr shortUrl={result.shortUrl} />
         </div>
       )}
     </>

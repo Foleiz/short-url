@@ -157,9 +157,9 @@ td:nth-child(5) {
 }
 
 /* Column อื่นๆ - ปรับสัดส่วนใหม่ */
-th:nth-child(1) { width: 40%; }  /* Original URL */
+th:nth-child(1) { width: 35%; }  /* Original URL */
 th:nth-child(2) { width: 25%; }  /* Short URL */
-th:nth-child(3) { width: 10%; }  /* Clicks */
+th:nth-child(3) { width: 15%; }  /* Clicks */
 th:nth-child(4) { width: 25%; }  /* Actions/QR Code */
 
 th {
@@ -169,6 +169,7 @@ th {
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   color: var(--text);
+  white-space: nowrap;
 }
 
 tr:last-child td {

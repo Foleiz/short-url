@@ -1,5 +1,5 @@
 import { useState } from "react";
-import QrModal from "./QrModal";
+import CreateQr from "./CreateQr";
 
 export default function UrlTable({ urls, onDelete, onDeleteSelected, onEdit }) {
   const [selectedUrl, setSelectedUrl] = useState(null);
@@ -32,7 +32,7 @@ export default function UrlTable({ urls, onDelete, onDeleteSelected, onEdit }) {
             disabled={selectedIds.length === 0}
             style={{ backgroundColor: selectedIds.length > 0 ? "#ef4444" : "#cbd5e1", cursor: selectedIds.length > 0 ? "pointer" : "not-allowed" }}
           >
-            Delete Selected ({selectedIds.length})
+            ลบที่เลือก ({selectedIds.length})
           </button>
         </div>
       )}
@@ -40,10 +40,10 @@ export default function UrlTable({ urls, onDelete, onDeleteSelected, onEdit }) {
       <table>
         <thead>
           <tr>
-            <th>Full URL</th>
-            <th>Short URL</th>
-            <th>Clicks</th>
-            <th>Action</th>
+            <th>ลิงก์เต็ม</th>
+            <th>ลิงก์ย่อ</th>
+            <th>จำนวนการเข้าชม</th>
+            <th>การจัดการ</th>
             <th>
               <input type="checkbox" onChange={handleSelectAll} checked={urls.length > 0 && selectedIds.length === urls.length} />
             </th>
@@ -69,7 +69,7 @@ export default function UrlTable({ urls, onDelete, onDeleteSelected, onEdit }) {
                       onClick={() => onEdit(u)} 
                       style={{ padding: "8px 12px", fontSize: "0.85rem", backgroundColor: "#f59e0b", whiteSpace: "nowrap" }}
                     >
-                      Edit
+                      แก้ไข
                     </button>
                   )}
                 </div>
@@ -89,8 +89,8 @@ export default function UrlTable({ urls, onDelete, onDeleteSelected, onEdit }) {
       {selectedUrl && (
         <div className="modal-overlay" onClick={() => setSelectedUrl(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <QrModal shortUrl={selectedUrl} />
-            <button onClick={() => setSelectedUrl(null)} style={{ marginTop: "20px", backgroundColor: "#64748b" }}>Close</button>
+            <CreateQr shortUrl={selectedUrl} />
+            <button onClick={() => setSelectedUrl(null)} style={{ marginTop: "20px", backgroundColor: "#64748b" }}>ปิด</button>
           </div>
         </div>
       )}
