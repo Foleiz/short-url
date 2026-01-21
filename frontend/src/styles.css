@@ -130,6 +130,7 @@ table {
   background: var(--surface);
   border-radius: 8px;
   overflow: hidden;
+  table-layout: fixed;
 }
 
 th, td {
@@ -137,12 +138,29 @@ th, td {
   text-align: center;
   border-bottom: 1px solid var(--border);
   word-break: break-all;
+  overflow: hidden;
 }
 
 th:nth-child(1), td:nth-child(1),
 th:nth-child(2), td:nth-child(2) {
   text-align: left;
 }
+
+/* Column Checkbox - ปรับให้เล็กลง */
+th:nth-child(5), 
+td:nth-child(5) { 
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  padding: 8px;
+  text-align: center;
+}
+
+/* Column อื่นๆ - ปรับสัดส่วนใหม่ */
+th:nth-child(1) { width: 40%; }  /* Original URL */
+th:nth-child(2) { width: 25%; }  /* Short URL */
+th:nth-child(3) { width: 10%; }  /* Clicks */
+th:nth-child(4) { width: 25%; }  /* Actions/QR Code */
 
 th {
   background-color: var(--bg);
@@ -168,6 +186,14 @@ td a {
 
 td a:hover {
   text-decoration: underline;
+}
+
+/* Style checkbox ให้สวยขึ้น */
+td:nth-child(5) input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
 }
 
 @keyframes fadeIn {

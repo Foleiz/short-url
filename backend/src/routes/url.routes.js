@@ -6,10 +6,21 @@ const router = express.Router();
 
 // Create Short URL
 router.post("/shorten", async (req, res) => {
-  const shortCode = nanoid(6);
+  const { fullUrl, customAlias } = req.body;
+  let shortCode;
+
+  if (customAlias && customAlias.trim()) {
+    const exists = await Url.findOne({ shortCode: customAlias });
+    if (exists) {
+      return res.status(400).json({ error: "ชื่อย่อนี้ถูกใช้งานแล้ว กรุณาใช้ชื่ออื่น" });
+    }
+    shortCode = customAlias;
+  } else {
+    shortCode = nanoid(6);
+  }
 
   const url = await Url.create({
-    fullUrl: req.body.fullUrl,
+    fullUrl,
     shortCode,
   });
 
@@ -47,6 +58,27 @@ router.delete("/urls/:id", async (req, res) => {
     res.json({ message: "Deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Error deleting URL" });
+  }
+});
+
+// Update URL
+router.put("/urls/:id", async (req, res) => {
+  const { fullUrl, shortCode } = req.body;
+  try {
+    const url = await Url.findById(req.params.id);
+    if (!url) return res.status(404).json({ error: "URL not found" });
+
+    if (shortCode && shortCode !== url.shortCode) {
+      const exists = await Url.findOne({ shortCode });
+      if (exists) return res.status(400).json({ error: "ชื่อย่อนี้ถูกใช้งานแล้ว" });
+      url.shortCode = shortCode;
+    }
+    if (fullUrl) url.fullUrl = fullUrl;
+
+    await url.save();
+    res.json(url);
+  } catch (error) {
+    res.status(500).json({ error: "Error updating URL" });
   }
 });
 
