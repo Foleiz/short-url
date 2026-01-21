@@ -2,11 +2,15 @@ import mongoose from "mongoose";
 
 const UrlSchema = new mongoose.Schema(
   {
-    fullUrl: { type: String, required: true },
-    shortCode: { type: String, required: true, unique: true },
-    clickCount: { type: Number, default: 0 },
+    Full_Url: { type: String, required: true },
+Short_Url: { type: String, required: true, unique: true },
+Click_Count: { type: Number, default: 0 },
+Create_Date: { type: Date },
+Update_Date: { type: Date }
+
   },
-  { timestamps: true }
+  {  timestamps: false,
+  versionKey: false }
 );
 
 export default mongoose.model("Url", UrlSchema);
