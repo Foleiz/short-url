@@ -52,13 +52,13 @@ export default function UrlTable({ urls, onDelete, onDeleteSelected, onEdit }) {
         <tbody>
           {urls.map((u) => (
             <tr key={u._id}>
-              <td>{u.fullUrl}</td>
+              <td>{u.Full_Url}</td>
               <td>
                 <a href={u.shortUrl} target="_blank">
                   {u.shortUrl}
                 </a>
               </td>
-              <td>{u.clickCount}</td>
+              <td>{u.Click_Count}</td>
               <td>
                 <div style={{ display: "flex", gap: "8px", justifyContent: "center", alignItems: "center" }}>
                   <button onClick={() => setSelectedUrl(u.shortUrl)} style={{ padding: "8px 12px", fontSize: "0.85rem", whiteSpace: "nowrap" }}>
