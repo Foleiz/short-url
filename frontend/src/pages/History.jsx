@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { getHistory } from "../api/shortUrlApi";
 import UrlTable from "../components/UrlTable";
-import EditModal from "../components/EditModal";
+import EditModal from "../components/EditLink"; // แก้ไขการ import ตรงนี้
 
 export default function History() {
   const [urls, setUrls] = useState([]);
@@ -9,20 +8,23 @@ export default function History() {
   const [editingUrl, setEditingUrl] = useState(null);
 
   useEffect(() => {
-    getHistory().then(setUrls);
+    fetch("https://short-url-515v.onrender.com/urls")
+      .then((res) => res.json())
+      .then((data) => setUrls(data))
+      .catch((err) => console.error("Error fetching history:", err));
   }, []);
 
   // Filter URLs based on search term
   const filteredUrls = urls.filter(u => 
-    u.fullUrl.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    u.shortCode.toLowerCase().includes(searchTerm.toLowerCase())
+    u.Full_Url?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    u.Short_Url?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this URL?")) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/urls/${id}`, { method: "DELETE" });
+      const response = await fetch(`https://short-url-515v.onrender.com/urls/${id}`, { method: "DELETE" });
       if (response.ok) {
         setUrls(urls.filter((u) => u._id !== id));
       } else {
@@ -39,7 +41,7 @@ export default function History() {
 
     try {
       // ยิง API ลบทีละตัวแบบ Parallel
-      await Promise.all(ids.map((id) => fetch(`http://localhost:5000/urls/${id}`, { method: "DELETE" })));
+      await Promise.all(ids.map((id) => fetch(`https://short-url-515v.onrender.com/urls/${id}`, { method: "DELETE" })));
       setUrls(urls.filter((u) => !ids.includes(u._id)));
     } catch (err) {
       console.error("Failed to delete multiple", err);
@@ -48,7 +50,7 @@ export default function History() {
   };
 
   const handleUpdate = async (id, updatedData) => {
-    const response = await fetch(`http://localhost:5000/urls/${id}`, {
+    const response = await fetch(`https://short-url-515v.onrender.com/urls/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData),
@@ -60,7 +62,7 @@ export default function History() {
     }
 
     const updatedUrl = await response.json();
-    setUrls(urls.map(u => u._id === id ? { ...u, ...updatedUrl, shortUrl: `http://localhost:5000/${updatedUrl.shortCode}` } : u));
+    setUrls(urls.map(u => u._id === id ? { ...u, ...updatedUrl, shortUrl: `https://short-url-515v.onrender.com/${updatedUrl.Short_Url}` } : u));
   };
 
   return (
