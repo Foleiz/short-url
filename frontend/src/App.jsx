@@ -10,7 +10,12 @@ export default function App() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={
+          <>
+            <Home />
+            <History />
+          </>
+        } />
         <Route path="/history" element={<History />} />
       </Routes>
     </BrowserRouter>
