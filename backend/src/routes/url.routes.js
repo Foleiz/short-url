@@ -31,7 +31,7 @@ router.post("/shorten", async (req, res) => {
     });
 
     res.json({
-      shortUrl: `http://localhost:5000/${Short_Url}`,
+      shortUrl: `https://short-url-515v.onrender.com/${Short_Url}`,
     });
   } catch (error) {
     console.error("Error creating short URL:", error);
@@ -45,7 +45,7 @@ router.get("/urls", async (req, res) => {
   res.json(
     urls.map((u) => ({
       ...u.toObject(),
-      shortUrl: `http://localhost:5000/${u.Short_Url}`,
+      shortUrl: `https://short-url-515v.onrender.com/${u.Short_Url}`,
     }))
   );
 });

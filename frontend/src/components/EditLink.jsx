@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 export default function EditLink({ url, onSave, onClose }) {
-  const [fullUrl, setFullUrl] = useState(url.fullUrl);
-  const [shortCode, setShortCode] = useState(url.shortCode);
+  const [fullUrl, setFullUrl] = useState(url.Full_Url || url.fullUrl || "");
+  const [shortCode, setShortCode] = useState(url.shortCode || (url.shortUrl ? url.shortUrl.split('/').pop() : "") || "");
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {

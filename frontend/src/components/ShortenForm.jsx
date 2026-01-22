@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CreateQr from "./CreateQr";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://short-url-515v.onrender.com";
 
 export default function CreateLink() {
   const [url, setUrl] = useState("");
