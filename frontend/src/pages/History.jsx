@@ -2,16 +2,24 @@ import { useEffect, useState } from "react";
 import UrlTable from "../components/UrlTable";
 import EditModal from "../components/EditLink"; // แก้ไขการ import ตรงนี้
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (window.location.hostname.includes("onrender.com") ? "https://short-url-515v.onrender.com" : "http://localhost:5000");
+
 export default function History() {
   const [urls, setUrls] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingUrl, setEditingUrl] = useState(null);
 
   useEffect(() => {
-    fetch("https://short-url-515v.onrender.com/urls")
-      .then((res) => res.json())
-      .then((data) => setUrls(data))
-      .catch((err) => console.error("Error fetching history:", err));
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/urls`);
+        const data = await res.json();
+        setUrls(data);
+      } catch (err) {
+        console.error("Error fetching history:", err);
+      }
+    };
+    fetchHistory();
   }, []);
 
   // Filter URLs based on search term
@@ -24,7 +32,7 @@ export default function History() {
     if (!confirm("Are you sure you want to delete this URL?")) return;
 
     try {
-      const response = await fetch(`https://short-url-515v.onrender.com/urls/${id}`, { method: "DELETE" });
+      const response = await fetch(`${API_BASE_URL}/urls/${id}`, { method: "DELETE" });
       if (response.ok) {
         setUrls(urls.filter((u) => u._id !== id));
       } else {
@@ -41,7 +49,7 @@ export default function History() {
 
     try {
       // ยิง API ลบทีละตัวแบบ Parallel
-      await Promise.all(ids.map((id) => fetch(`https://short-url-515v.onrender.com/urls/${id}`, { method: "DELETE" })));
+      await Promise.all(ids.map((id) => fetch(`${API_BASE_URL}/urls/${id}`, { method: "DELETE" })));
       setUrls(urls.filter((u) => !ids.includes(u._id)));
     } catch (err) {
       console.error("Failed to delete multiple", err);
@@ -50,7 +58,7 @@ export default function History() {
   };
 
   const handleUpdate = async (id, updatedData) => {
-    const response = await fetch(`https://short-url-515v.onrender.com/urls/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/urls/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData),
@@ -62,7 +70,7 @@ export default function History() {
     }
 
     const updatedUrl = await response.json();
-    setUrls(urls.map(u => u._id === id ? { ...u, ...updatedUrl, shortUrl: `https://short-url-515v.onrender.com/${updatedUrl.Short_Url}` } : u));
+    setUrls(urls.map(u => u._id === id ? { ...u, ...updatedUrl, shortUrl: `${API_BASE_URL}/${updatedUrl.Short_Url}` } : u));
   };
 
   return (

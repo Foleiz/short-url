@@ -7,7 +7,7 @@ const router = express.Router();
 // Create Short URL
 router.post("/shorten", async (req, res) => {
   try {
-    // รองรับทั้ง Full_Url (ใหม่) และ fullUrl (เก่า) เพื่อป้องกันปัญหา
+    // รองรับทั้ง Full_Url และ fullUrl เพื่อความยืดหยุ่น
     const { Full_Url, fullUrl, customAlias } = req.body;
     const finalFullUrl = Full_Url || fullUrl;
 
@@ -27,11 +27,16 @@ router.post("/shorten", async (req, res) => {
 
     const url = await Url.create({
       Full_Url: finalFullUrl,
-      Short_Url
+      Short_Url,
+      Create_Date: new Date(),
+      Update_Date: new Date()
     });
 
     res.json({
       shortUrl: `https://short-url-515v.onrender.com/${Short_Url}`,
+      Create_Date: url.Create_Date,
+      Update_Date: url.Update_Date,
+      Click_Count: url.Click_Count,
     });
   } catch (error) {
     console.error("Error creating short URL:", error);
@@ -41,10 +46,11 @@ router.post("/shorten", async (req, res) => {
 
 // Get history
 router.get("/urls", async (req, res) => {
-  const urls = await Url.find().sort({ Create_Date: -1 });
+  // ใช้ .lean() เพื่อประสิทธิภาพที่ดีขึ้นเมื่อต้องการแค่ข้อมูล JSON
+  const urls = await Url.find().sort({ Create_Date: -1 }).lean();
   res.json(
     urls.map((u) => ({
-      ...u.toObject(),
+      ...u,
       shortUrl: `https://short-url-515v.onrender.com/${u.Short_Url}`,
     }))
   );

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import CreateQr from "./CreateQr";
 
+// ใช้ Logic เดียวกับ ShortenForm เพื่อเลือก URL ให้ถูกต้อง
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (window.location.hostname.includes("onrender.com") ? "https://short-url-515v.onrender.com" : "http://localhost:5000");
+
 export default function CreateLink() {
   const [url, setUrl] = useState("");
   const [alias, setAlias] = useState("");
@@ -13,10 +16,10 @@ export default function CreateLink() {
     setResult(null);
 
     try {
-      const response = await fetch("http://localhost:5000/shorten", {
+      const response = await fetch(`${API_BASE_URL}/shorten`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullUrl: url, customAlias: alias }),
+        body: JSON.stringify({ Full_Url: url, customAlias: alias }),
       });
 
       const data = await response.json();

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import CreateQr from "./CreateQr";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://short-url-515v.onrender.com";
+// ถ้าเปิดผ่าน localhost ให้ใช้ API ของเครื่องตัวเอง (http://localhost:5000)
+// ถ้าไม่ใช่ (เช่นขึ้น Server แล้ว) ให้ใช้ URL ของ Render
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (window.location.hostname.includes("onrender.com") ? "https://short-url-515v.onrender.com" : "http://localhost:5000");
 
 export default function CreateLink() {
   const [url, setUrl] = useState("");
@@ -15,7 +17,7 @@ export default function CreateLink() {
     setResult(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/shorten`, {
+      const response = await fetch(`${API_BASE_URL}/shorten`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
