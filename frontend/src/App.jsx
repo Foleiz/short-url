@@ -7,8 +7,8 @@ export default function App() {
     <BrowserRouter>
       <div className="container">
         <nav>
-          <Link to="/">Home</Link>
-          <Link to="/history">History</Link>
+          <Link to="/">หน้าแรก</Link>
+          <Link to="/history">ประวัติ</Link>
         </nav>
 
         <Routes>

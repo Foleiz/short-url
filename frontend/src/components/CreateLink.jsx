@@ -1,8 +1,7 @@
 import { useState } from "react";
 import CreateQr from "./CreateQr";
 
-// ถ้าเปิดผ่าน localhost ให้ใช้ API ของเครื่องตัวเอง (http://localhost:5000)
-// ถ้าไม่ใช่ (เช่นขึ้น Server แล้ว) ให้ใช้ URL ของ Render
+// ใช้ Logic เดียวกับ ShortenForm เพื่อเลือก URL ให้ถูกต้อง
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (window.location.hostname.includes("onrender.com") ? "https://short-url-515v.onrender.com" : "http://localhost:5000");
 
 export default function CreateLink() {
@@ -20,10 +19,7 @@ export default function CreateLink() {
       const response = await fetch(`${API_BASE_URL}/shorten`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          Full_Url: url,
-          customAlias: alias,
-        }),
+        body: JSON.stringify({ Full_Url: url, customAlias: alias }),
       });
 
       const data = await response.json();
@@ -49,22 +45,20 @@ export default function CreateLink() {
           value={alias}
           onChange={(e) => setAlias(e.target.value)}
           placeholder="ตั้งชื่อย่อเอง"
-          style={{ flex: "0 0 150px" }}
+          style={{ flex: "0 0 150px" }} 
         />
         <button type="submit">Create Short URL</button>
       </form>
 
       {error && (
-        <div style={{ color: "#ef4444", marginBottom: 20, textAlign: "center" }}>
-          ⚠️ {error}
-        </div>
+        <div style={{ color: "#ef4444", marginBottom: "20px", textAlign: "center" }}>⚠️ {error}</div>
       )}
 
       {result && (
         <div className="result-card">
           <p>
             ลิงก์ย่อของคุณ:{" "}
-            <a href={result.shortUrl} target="_blank" rel="noreferrer">
+            <a href={result.shortUrl} target="_blank">
               {result.shortUrl}
             </a>
           </p>

@@ -7,7 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api", urlRoutes);
+// เรียกใช้ Routes ที่ path หลัก เพื่อให้ตรงกับ Frontend (เช่น /shorten, /urls)
 app.use("/", urlRoutes);
+app.use("/api", urlRoutes);
 
 export default app;
